@@ -8,14 +8,28 @@
   }
 
   button {
-    @apply btn btn-primary w-full block;
+    @apply btn btn-primary w-full block transition-none animate-none;
+  }
+
+  h2 {
+    @apply text-4xl font-bold tracking-tight;
   }
 
   h3 {
     @apply text-2xl font-medium tracking-tight;
   }
 
+  h4 {
+    @apply mb-2 text-sm font-medium text-slate-300;
+  }
+
   a {
     @apply text-primary font-medium;
+  }
+}
+
+@layer components {
+  .menu {
+    @apply block text-black px-3 py-2 bg-transparent hover:bg-primary hover:text-white w-full rounded-lg font-medium transition duration-300;
   }
 }
