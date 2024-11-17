@@ -20,8 +20,8 @@ model User {
 
   sessions Session[]
   comments Comment[]
-  enrollments enrollment[]
-  orders order[]
+  enrollments Enrollment[]
+  orders Order[]
 }
 
 model Session {
@@ -42,8 +42,8 @@ model Course {
   updatedAt DateTime @updatedAt
 
   lessons Lesson[]
-  enrollments enrollment[]
-  orders order[]
+  enrollments Enrollment[]
+  orders Order[]
 }
 
 model Lesson {
@@ -70,7 +70,7 @@ model Comment {
   lesson Lesson @relation(fields: [lessonId], references: [id])
 }
 
-model enrollment {
+model Enrollment {
   id String @id @default(cuid())
   userId String
   user User @relation(fields: [userId], references: [id])
@@ -80,7 +80,7 @@ model enrollment {
   updatedAt DateTime @updatedAt
 }
 
-model order {
+model Order {
   id String @id @default(cuid())
   userId String
   user User @relation(fields: [userId], references: [id])

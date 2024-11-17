@@ -6,12 +6,12 @@ interface RootLayoutProps {
 
 export const RootLayout = ({ children }: RootLayoutProps) => {
   return (
-    <div>
+    <html>
       <head>
         <script src="https://unpkg.com/htmx.org@2.0.3"></script>
         <link rel="stylesheet" href="/public/globals.css" />
       </head>
       <body>{children}</body>
-    </div>
+    </html>
   );
 };

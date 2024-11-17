@@ -5,6 +5,7 @@
     "jsxFactory": "Html.createElement",
     "jsxFragmentFactory": "Html.Fragment",
     "module": "ES2022",
+    "plugins": [{ "name": "@kitajs/ts-html-plugin" }],
     "moduleResolution": "node",
     "types": ["bun-types", "@kitajs/html/htmx.d.ts"],
     "esModuleInterop": true,
