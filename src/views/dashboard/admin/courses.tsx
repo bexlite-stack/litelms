@@ -15,7 +15,7 @@ export const AdminCourses = ({ courses }: { courses: Course[] }) => {
         </section>
         <section class="grid grid-cols-4 gap-6">
           {courses.map((course) => (
-            <CourseCard title={course.title} desc={course.description} />
+            <CourseCard id={course.id} title={course.title} desc={course.description} />
           ))}
         </section>
       </main>

@@ -1,7 +1,8 @@
 import { Html } from "@kitajs/html";
 import { DashboardLayout } from "../dashboardLayout";
+import { User } from "@prisma/client";
 
-export const Students = () => {
+export const Students = ({ users }: { users: User[] }) => {
   return (
     <DashboardLayout>
       <table class="w-full text-left table-auto table-zebra">
@@ -9,35 +10,23 @@ export const Students = () => {
           <tr>
             <th class="p-4">ID</th>
             <th>User</th>
-            <th>Course</th>
+            <th>Registered At</th>
             <th>Status</th>
-            <th>Amount</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="p-4">1</td>
-            <td>Indra Zulfi</td>
-            <td>Python for Data Analyst</td>
-            <td>Granted</td>
-            <td>IDR 150.000</td>
-            <td class="flex gap-2 py-4">
-              <button class="w-fit btn-sm">Send Email</button>
-              <button class="w-fit btn-outline  btn-sm">Mark as Cancel</button>
-            </td>
-          </tr>
-          <tr>
-            <td class="p-4">1</td>
-            <td>Indra Zulfi</td>
-            <td>Python for Data Analyst</td>
-            <td>Granted</td>
-            <td>IDR 150.000</td>
-            <td class="flex gap-2 py-4">
-              <button class="w-fit  btn-sm">Send Email</button>
-              <button class="w-fit btn-outline btn-sm">Mark as Cancel</button>
-            </td>
-          </tr>
+          {users.map((user, index) => (
+            <tr>
+              <td class="p-4">{index + 1}</td>
+              <td>{user.name}</td>
+              <td>{user.createdAt.toDateString()}</td>
+              <td>Active</td>
+              <td>
+                <button class="w-fit btn-sm btn-error text-white">Ban</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </DashboardLayout>

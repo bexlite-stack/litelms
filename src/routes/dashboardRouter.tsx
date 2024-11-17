@@ -13,6 +13,7 @@ import { prisma } from "../utils/prisma";
 import { Course } from "@prisma/client";
 import { Up } from "../views/icons/up";
 import { Down } from "../views/icons/down";
+import { LessonCard } from "../views/dashboard/admin/lessonCard";
 
 interface CourseBody {
   title: string;
@@ -44,24 +45,20 @@ export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
         return (
           <>
             {lessons.map((lesson) => (
-              <div class="bg-slate-50 p-4 rounded-lg border flex justify-between border-slate-100">
-                <div class="font-medium">{lesson.title}</div>
-                <div class="flex gap-2">
-                  <button class="btn btn-ghost btn-sm w-fit">
-                    <Up />
-                  </button>
-                  <button class="btn btn-ghost btn-sm w-fit">
-                    <Down />
-                  </button>
-                  <button class="btn btn-outline btn-sm w-fit">Edit</button>
-                  <button class="btn btn-error text-white btn-sm w-fit">Delete</button>
-                </div>
-              </div>
+              <LessonCard lesson={lesson} />
             ))}
           </>
         );
       })
-      .get("/students", () => <Students />)
+      .get("/students", async () => {
+        const students = await prisma.user.findMany({
+          where: {
+            role: "USER",
+          },
+        });
+
+        return <Students users={students} />;
+      })
       .get("/revenues", () => <Revenues />)
       .get("/orders", () => <Orders />)
 
@@ -109,6 +106,6 @@ export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
           },
         });
 
-        return <div>{newLesson.title}</div>;
+        return <LessonCard lesson={newLesson} />;
       })
   );
