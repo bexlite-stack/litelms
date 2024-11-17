@@ -1,8 +1,9 @@
 import { Html } from "@kitajs/html";
 import { DashboardLayout } from "../dashboardLayout";
 import { CourseCard } from "./courseCard";
+import { Course } from "@prisma/client";
 
-export const AdminCourses = () => {
+export const AdminCourses = ({ courses }: { courses: Course[] }) => {
   return (
     <DashboardLayout>
       <main class="p-6 space-y-6">
@@ -13,8 +14,9 @@ export const AdminCourses = () => {
           </a>
         </section>
         <section class="grid grid-cols-4 gap-6">
-          <CourseCard title="Python for Data Analyst" desc="Beginner course for someone who just start to learn data analytics" />
-          <CourseCard title="Javascript for Beginners" desc="Javascript is the most powerful web based programming language" />
+          {courses.map((course) => (
+            <CourseCard title={course.title} desc={course.description} />
+          ))}
         </section>
       </main>
     </DashboardLayout>
