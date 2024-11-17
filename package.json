@@ -2,14 +2,22 @@
   "name": "litelms",
   "version": "1.0.50",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "tw:run": "bunx tailwindcss -i ./src/views/input.css -o ./public/globals.css --watch",
+    "dev": "bun run --watch src/index.ts",
+    "start": "concurrently \"bun dev\" \"bun tw:run\""
   },
   "dependencies": {
-    "elysia": "latest"
+    "@elysiajs/html": "^1.1.1",
+    "@elysiajs/static": "^1.1.1",
+    "@kitajs/html": "^4.2.4",
+    "@prisma/client": "^5.22.0",
+    "elysia": "latest",
+    "prisma": "^5.22.0"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "concurrently": "^9.1.0",
+    "tailwindcss": "^3.4.15"
   },
   "module": "src/index.js"
 }

@@ -1,0 +1,93 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./prod.db"
+}
+
+model User {
+  id String @id @default(cuid())
+  name String
+  email String @unique
+  password String
+  avatar String?
+  role String @default("USER")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions Session[]
+  comments Comment[]
+  enrollments enrollment[]
+  orders order[]
+}
+
+model Session {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Course {
+  id String @id @default(cuid())
+  title String
+  description String
+  price Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lessons Lesson[]
+  enrollments enrollment[]
+  orders order[]
+}
+
+model Lesson {
+  id String @id @default(cuid())
+  title String
+  description String
+  videoUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  courseId String
+  course Course @relation(fields: [courseId], references: [id])
+
+  comments Comment[]
+}
+
+model Comment {
+  id String @id @default(cuid())
+  content String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  lessonId String
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+}
+
+model enrollment {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  courseId String
+  course Course @relation(fields: [courseId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model order {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  courseId String
+  course Course @relation(fields: [courseId], references: [id])
+  status String @default("PENDING")
+  amount Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
