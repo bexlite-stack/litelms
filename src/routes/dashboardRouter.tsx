@@ -16,6 +16,7 @@ import { Down } from "../views/icons/down";
 import { LessonCard } from "../views/dashboard/admin/lessonCard";
 
 interface CourseBody {
+  image: File;
   title: string;
   description: string;
   price: number;
@@ -64,21 +65,24 @@ export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
 
       // Functionality
       .post("/courses", async ({ body }) => {
-        const { title, description, price, level } = body as CourseBody;
+        const { image, title, description, price, level } = body as CourseBody;
 
-        if (!title || !description || !price || !level) {
+        if (!image || !title || !description || !price || !level) {
           return <div>Please fill all fields</div>;
         }
 
         try {
           const newCourse = await prisma.course.create({
             data: {
+              image: image.name,
               title,
               description,
               price: Number(price),
               level,
             },
           });
+
+          await Bun.write(`public/courses/${newCourse.id}/${image.name}`, image);
 
           return new Response(null, {
             headers: {
@@ -97,15 +101,58 @@ export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
         }
 
         const { courseId } = params;
+        const totalLessons = await prisma.lesson.count({
+          where: {
+            courseId,
+          },
+        });
 
         const newLesson = await prisma.lesson.create({
           data: {
             title,
             videoUrl,
             courseId,
+            order: totalLessons + 1,
           },
         });
 
         return <LessonCard lesson={newLesson} />;
+      })
+      .patch("/lessons/:lessonId", async ({ params, body }) => {
+        const { movement, order } = body as { movement: "UP" | "DOWN"; order: string };
+        const { lessonId } = params;
+
+        console.log({ movement, order, lessonId });
+
+        // Update current lesson order
+        await prisma.lesson.update({
+          where: {
+            id: lessonId,
+          },
+          data: {
+            order: {
+              [movement === "UP" ? "decrement" : "increment"]: 1,
+            },
+          },
+        });
+
+        // Update the lesson that was moved
+        await prisma.lesson.update({
+          where: {
+            id: lessonId,
+            order: Number(order),
+          },
+          data: {
+            order: {
+              [movement === "UP" ? "increment" : "decrement"]: 1,
+            },
+          },
+        });
+
+        return new Response(null, {
+          headers: {
+            "HX-Refresh": "true",
+          },
+        });
       })
   );

@@ -8,12 +8,20 @@ export const LessonCard = ({ lesson }: { lesson: Lesson }) => {
     <div class="bg-slate-50 p-4 rounded-lg border flex justify-between border-slate-100">
       <div class="font-medium">{lesson.title}</div>
       <div class="flex gap-2">
-        <button class="btn btn-ghost btn-sm w-fit">
-          <Up />
-        </button>
-        <button class="btn btn-ghost btn-sm w-fit">
-          <Down />
-        </button>
+        <form hx-patch={`/dashboard/admin/lessons/${lesson.id}`}>
+          <input value="UP" hidden />
+          <input value={String(lesson.order)} hidden />
+          <button class="btn btn-ghost btn-sm w-fit">
+            <Up />
+          </button>
+        </form>
+        <form hx-patch={`/dashboard/admin/lessons/${lesson.id}`}>
+          <input value="DOWN" hidden />
+          <input value={String(lesson.order)} hidden />
+          <button class="btn btn-ghost btn-sm w-fit">
+            <Down />
+          </button>
+        </form>
         <button class="btn btn-outline btn-sm w-fit">Edit</button>
         <button class="btn btn-error text-white btn-sm w-fit">Delete</button>
       </div>
