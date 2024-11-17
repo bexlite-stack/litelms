@@ -7,6 +7,14 @@
     @apply input input-bordered w-full block;
   }
 
+  select {
+    @apply select input-bordered w-full block;
+  }
+
+  textarea {
+    @apply textarea input-bordered w-full block;
+  }
+
   button {
     @apply btn btn-primary w-full block transition-none animate-none duration-0;
   }
