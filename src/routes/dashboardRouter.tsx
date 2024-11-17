@@ -6,6 +6,7 @@ import { OrderHistory } from "../views/dashboard/users/orderHistory";
 import { AdminCourses } from "../views/dashboard/admin/courses";
 import { Students } from "../views/dashboard/admin/students";
 import { Revenues } from "../views/dashboard/admin/revenues";
+import { Orders } from "../views/dashboard/admin/orders";
 
 export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
   .get("/", () => <Dashboard />)
@@ -16,4 +17,5 @@ export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
       .get("/courses", () => <AdminCourses />)
       .get("/students", () => <Students />)
       .get("/revenues", () => <Revenues />)
+      .get("/orders", () => <Orders />)
   );

@@ -1080,6 +1080,7 @@ button {
   width: 100%;
   animation: none;
   transition-property: none;
+  transition-duration: 0s;
 }
 
 h2 {
@@ -2213,10 +2214,6 @@ a {
   display: table;
 }
 
-.table-header-group {
-  display: table-header-group;
-}
-
 .grid {
   display: grid;
 }
@@ -2241,13 +2238,13 @@ a {
   width: calc(100vw - 240px);
 }
 
-.w-full {
-  width: 100%;
-}
-
 .w-fit {
   width: -moz-fit-content;
   width: fit-content;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .table-auto {
@@ -2282,12 +2279,12 @@ a {
   justify-content: space-between;
 }
 
-.gap-6 {
-  gap: 1.5rem;
-}
-
 .gap-2 {
   gap: 0.5rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
 }
 
 .space-y-2 > :not([hidden]) ~ :not([hidden]) {
@@ -2313,16 +2310,12 @@ a {
   border-top-right-radius: 0.5rem;
 }
 
-.border {
-  border-width: 1px;
+.border-b {
+  border-bottom-width: 1px;
 }
 
 .border-r {
   border-right-width: 1px;
-}
-
-.border-b {
-  border-bottom-width: 1px;
 }
 
 .bg-slate-100 {
@@ -2330,12 +2323,12 @@ a {
   background-color: rgb(241 245 249 / var(--tw-bg-opacity, 1));
 }
 
-.p-6 {
-  padding: 1.5rem;
-}
-
 .p-4 {
   padding: 1rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
 }
 
 .py-4 {

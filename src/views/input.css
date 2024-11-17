@@ -8,7 +8,7 @@
   }
 
   button {
-    @apply btn btn-primary w-full block transition-none animate-none;
+    @apply btn btn-primary w-full block transition-none animate-none duration-0;
   }
 
   h2 {
