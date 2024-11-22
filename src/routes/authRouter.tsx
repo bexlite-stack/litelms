@@ -47,12 +47,12 @@ export const authRouter = new Elysia()
     });
 
     if (!user) {
-      return <div>User not found</div>;
+      return <div class="alert alert-error">User not found</div>;
     }
 
     const isPasswordValid = await Bun.password.verify(password, user.password);
     if (!isPasswordValid) {
-      return <div>Invalid password</div>;
+      return <div class="alert alert-error">Invalid password</div>;
     }
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     const session = await prisma.session.create({

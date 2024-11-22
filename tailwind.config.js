@@ -2,10 +2,20 @@
 module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        grow: "grow 2s ease-in-out forwards",
+      },
+      keyframes: {
+        grow: {
+          "0%": { height: "0" },
+          "100%": { height: "100%" },
+        },
+      },
+      fontFamily: {
+        sans: ["Instrument Sans", "sans-serif"],
+      },
+    },
   },
-  daisyui: {
-    themes: ["light"],
-  },
-  plugins: [require("daisyui")],
+  plugins: [],
 };

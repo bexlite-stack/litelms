@@ -14,6 +14,8 @@ import { Course } from "@prisma/client";
 import { Up } from "../views/icons/up";
 import { Down } from "../views/icons/down";
 import { LessonCard } from "../views/dashboard/admin/lessonCard";
+import { DashboardLayout } from "../views/dashboard/dashboardLayout";
+import { Overview } from "../views/dashboard/admin/overview";
 
 interface CourseBody {
   image: File;
@@ -29,6 +31,9 @@ export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
   .get("/orders", () => <OrderHistory />)
   .group("/admin", (app) =>
     app
+      .get("/overview", async () => {
+        return <Overview />;
+      })
       .get("/courses", async () => {
         const courses = await prisma.course.findMany();
         return <AdminCourses courses={courses} />;
