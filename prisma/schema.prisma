@@ -43,6 +43,7 @@ model Course {
   level String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  published Boolean @default(false)
 
   lessons Lesson[]
   enrollments Enrollment[]

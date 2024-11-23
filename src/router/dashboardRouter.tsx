@@ -11,8 +11,6 @@ import { CourseForm } from "../views/dashboard/admin/courseForm";
 import { LessonForm } from "../views/dashboard/admin/lessonForm";
 import { prisma } from "../utils/prisma";
 import { Course } from "@prisma/client";
-import { Up } from "../views/icons/up";
-import { Down } from "../views/icons/down";
 import { LessonCard } from "../views/dashboard/admin/lessonCard";
 import { DashboardLayout } from "../views/dashboard/dashboardLayout";
 import { Overview } from "../views/dashboard/admin/overview";
@@ -36,7 +34,6 @@ export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
         const courses = await prisma.course.findMany();
         return <AdminCourses courses={courses} />;
       })
-      .get("/courses/create", () => <CourseForm />)
       .get("/courses/:courseId/lessons", async ({ params }) => {
         const { courseId } = params;
         const lessons = await prisma.lesson.findMany({
@@ -58,35 +55,7 @@ export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
       .get("/orders", () => <Orders />)
 
       // Functionality
-      .post("/courses", async ({ body }) => {
-        const { image, title, description, price, level } = body as CourseBody;
 
-        if (!image || !title || !description || !price || !level) {
-          return <div>Please fill all fields</div>;
-        }
-
-        try {
-          const newCourse = await prisma.course.create({
-            data: {
-              image: image.name,
-              title,
-              description,
-              price: Number(price),
-              level,
-            },
-          });
-
-          await Bun.write(`public/courses/${newCourse.id}/${image.name}`, image);
-
-          return new Response(null, {
-            headers: {
-              "HX-Location": `/dashboard/admin/courses/${newCourse.id}/add-lesson`,
-            },
-          });
-        } catch (error) {
-          console.error(error);
-        }
-      })
       .post("/courses/:courseId/add-lesson", async ({ body, params }) => {
         const { title, videoUrl, status } = body as { title: string; description: string; videoUrl: string; status: string };
 

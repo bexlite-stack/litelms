@@ -4,6 +4,7 @@ import { Html } from "@kitajs/html";
 import { prisma } from "../utils/prisma";
 import { LessonForm } from "../views/dashboard/admin/lessonForm";
 import { LessonCard } from "../views/dashboard/admin/lessonCard";
+import { CourseForm } from "../views/dashboard/admin/courseForm";
 
 export const adminCoursesRouter = new Elysia({ prefix: "/dashboard/admin" })
 
@@ -12,7 +13,59 @@ export const adminCoursesRouter = new Elysia({ prefix: "/dashboard/admin" })
     return <AdminCourses courses={allCourses} />;
   })
 
+  .get("/courses/create", () => <CourseForm />)
+
   .get("/courses/:courseId/edit-lesson", ({ params }) => <LessonForm courseId={params.courseId} />)
+
+  .post("/courses", async ({ body }) => {
+    const { image, title, description, price, level } = body as any;
+
+    if (!image || !title || !description || !price || !level) {
+      return <div>Please fill all fields</div>;
+    }
+
+    try {
+      const newCourse = await prisma.course.create({
+        data: {
+          image: image.name,
+          title,
+          description,
+          price: Number(price),
+          level,
+        },
+      });
+
+      await Bun.write(`public/courses/${newCourse.id}/${image.name}`, image);
+
+      return new Response(null, {
+        headers: {
+          "HX-Location": `/dashboard/admin/courses/${newCourse.id}/edit-lesson`,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  })
+
+  .patch("/courses/:courseId", async ({ params, body }) => {
+    const { courseId } = params;
+    const { published } = body as { published: string };
+
+    await prisma.course.update({
+      where: {
+        id: courseId,
+      },
+      data: {
+        published: published === "true" ? true : false,
+      },
+    });
+
+    return new Response(null, {
+      headers: {
+        "HX-Refresh": "true",
+      },
+    });
+  })
 
   .get("/lessons", async ({ query }) => {
     const { courseId } = query;

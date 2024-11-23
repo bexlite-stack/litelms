@@ -8,8 +8,15 @@ import { SingleCourse } from "../views/dashboard/users/single-course";
 export const userCoursesRouter = new Elysia({ prefix: "/dashboard" })
   // My courses
   .get("/my-courses", async () => {
-    const allCourses = await prisma.course.findMany();
-    return <MyCourse courses={allCourses} />;
+    const userCourses = await prisma.enrollment.findMany({
+      include: {
+        course: true,
+      },
+    });
+
+    const courses = userCourses.map((enrollment) => enrollment.course);
+
+    return <MyCourse courses={courses} />;
   })
 
   .get("/my-courses/:courseId/first-lesson", async ({ params, redirect }) => {

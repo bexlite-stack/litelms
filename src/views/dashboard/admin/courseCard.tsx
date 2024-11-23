@@ -4,9 +4,10 @@ interface CourseCardProps {
   id: string;
   title: string;
   desc: string;
+  published: boolean;
 }
 
-export const CourseCard = ({ id, title, desc }: CourseCardProps) => {
+export const CourseCard = ({ id, title, desc, published }: CourseCardProps) => {
   return (
     <div class="card p-0">
       <div class="bg-slate-100 h-64 rounded-t-lg" />
@@ -19,7 +20,19 @@ export const CourseCard = ({ id, title, desc }: CourseCardProps) => {
           <a href={`/dashboard/admin/courses/${id}/edit-lesson`} hx-boost="true" class="block w-full">
             <button class="btn-outline text-sm">Edit lesson</button>
           </a>
-          <button class="text-sm">Publish</button>
+          <div class="w-full">
+            {published ? (
+              <form hx-patch={`/dashboard/admin/courses/${id}`}>
+                <input value="false" name="published" hidden />
+                <button class="text-sm">Unpublish</button>
+              </form>
+            ) : (
+              <form hx-patch={`/dashboard/admin/courses/${id}`}>
+                <input value="true" name="published" hidden />
+                <button class="text-sm">Publish</button>
+              </form>
+            )}
+          </div>
         </div>
       </div>
     </div>
