@@ -59,6 +59,7 @@ export const userDashboardRouter = new Elysia({ prefix: "/dashboard" })
           description: newOrder.course.title,
           redirectUrl: "https://devscale.id",
         }),
+        redirect: "follow",
       });
 
       const { data } = await createPayment.json();
