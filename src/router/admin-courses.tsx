@@ -8,6 +8,19 @@ import { CourseForm } from "../views/dashboard/admin/courseForm";
 
 export const adminCoursesRouter = new Elysia({ prefix: "/dashboard/admin" })
 
+  .derive(async ({ cookie: { sessionId } }) => {
+    const user = await prisma.session.findUnique({
+      where: {
+        id: sessionId.value,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    return { user: user?.user };
+  })
+
   .get("/courses", async () => {
     const allCourses = await prisma.course.findMany();
     return <AdminCourses courses={allCourses} />;
@@ -16,6 +29,24 @@ export const adminCoursesRouter = new Elysia({ prefix: "/dashboard/admin" })
   .get("/courses/create", () => <CourseForm />)
 
   .get("/courses/:courseId/edit-lesson", ({ params }) => <LessonForm courseId={params.courseId} />)
+
+  .post("/courses/:courseId/request-certificate", async ({ user, params }) => {
+    const { courseId } = params;
+    console.log(courseId, user);
+
+    await prisma.certificate.create({
+      data: {
+        userId: user?.id as string,
+        courseId,
+      },
+    });
+
+    return new Response(null, {
+      headers: {
+        "HX-Refresh": "true",
+      },
+    });
+  })
 
   .post("/courses", async ({ body }) => {
     const { image, title, description, price, level } = body as any;

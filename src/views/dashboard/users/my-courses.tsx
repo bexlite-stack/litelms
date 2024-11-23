@@ -17,7 +17,7 @@ export const MyCourse = ({ courses }: MyCourseProps) => {
         </section>
         <section class="grid grid-cols-3 gap-6">
           {courses.map((course) => {
-            return <CourseCard href={`/dashboard/my-courses/${course.id}/first-lesson`} title={course.title} desc={course.description} />;
+            return <CourseCard id={course.id} href={`/dashboard/my-courses/${course.id}/first-lesson`} title={course.title} desc={course.description} />;
           })}
         </section>
       </main>

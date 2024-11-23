@@ -1,13 +1,14 @@
 import { Html } from "@kitajs/html";
 
 interface CourseCardProps {
+  id: string;
   title: string;
   desc: string;
   href: string;
   children?: JSX.Element;
 }
 
-export const CourseCard = ({ title, desc, href, children }: CourseCardProps) => {
+export const CourseCard = ({ id, title, desc, href, children }: CourseCardProps) => {
   return (
     <div class="card p-0">
       <div class="bg-slate-100 h-64" />
@@ -23,7 +24,9 @@ export const CourseCard = ({ title, desc, href, children }: CourseCardProps) => 
             <a href={href} hx-boost="true" class="block w-full">
               <button class="text-sm">Continue</button>
             </a>
-            <button class="text-sm btn-outline">Request Certificate</button>
+            <button hx-post={`/dashboard/admin/courses/${id}/request-certificate`} class="text-sm btn-outline">
+              Request Certificate
+            </button>
           </div>
         )}
       </div>
