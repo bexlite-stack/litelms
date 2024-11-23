@@ -33,12 +33,15 @@ export const userDashboardRouter = new Elysia({ prefix: "/dashboard" })
     const { amount } = body as any;
     const { courseId } = params;
 
+    console.log({ user, body, courseId });
+
     try {
       const newOrder = await prisma.order.create({
         data: {
           userId: user?.id as string,
           courseId: courseId,
           amount: Number(amount),
+          mayarTransactionId: "",
         },
         include: {
           course: true,
@@ -64,14 +67,12 @@ export const userDashboardRouter = new Elysia({ prefix: "/dashboard" })
 
       const { data } = await createPayment.json();
 
-      console.log(data);
-
       await prisma.order.update({
         where: {
           id: newOrder.id,
         },
         data: {
-          mayarTransactionId: data.transaction_id,
+          mayarTransactionId: data.id,
         },
       });
 

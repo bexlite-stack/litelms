@@ -8,6 +8,7 @@ import { userOrdersRouter } from "./router/user-orders";
 import { adminCoursesRouter } from "./router/admin-courses";
 import { adminOverviewRouter } from "./router/admin-overview";
 import { adminStudentRouter } from "./router/admin-students";
+import { prisma } from "./utils/prisma";
 
 const app = new Elysia()
   .use(staticPlugin())
@@ -15,6 +16,33 @@ const app = new Elysia()
 
   // auth
   .use(authRouter)
+
+  .post("/webhook", async ({ body }) => {
+    const { event, data } = body as any;
+
+    if (event === "payment.received") {
+      const updatedOrder = await prisma.order.update({
+        where: {
+          mayarTransactionId: data.productId,
+        },
+        data: {
+          status: "PAID",
+        },
+        include: {
+          course: true,
+        },
+      });
+
+      await prisma.enrollment.create({
+        data: {
+          userId: updatedOrder.userId,
+          courseId: updatedOrder.course.id,
+        },
+      });
+    }
+
+    return "Success!!!";
+  })
 
   .guard((app) =>
     app
