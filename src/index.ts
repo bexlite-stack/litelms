@@ -7,6 +7,8 @@ import { userCoursesRouter } from "./routes/user-courses";
 import { userDashboardRouter } from "./routes/user-dashboard";
 import { userOrdersRouter } from "./routes/user-orders";
 import { adminCoursesRouter } from "./routes/admin-courses";
+import { adminOverviewRouter } from "./routes/admin-overview";
+import { adminStudentRouter } from "./routes/admin-students";
 
 const app = new Elysia()
   .use(staticPlugin())
@@ -14,6 +16,8 @@ const app = new Elysia()
 
   .use(authRouter)
   .use(adminCoursesRouter)
+  .use(adminOverviewRouter)
+  .use(adminStudentRouter)
   // .use(dashboardRouter)
   .use(userCoursesRouter)
   .use(userDashboardRouter)

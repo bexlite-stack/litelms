@@ -19,7 +19,7 @@ export const Overview = () => {
 
   return (
     <DashboardLayout>
-      <main class="p-12">
+      <main>
         <h3>Overview</h3>
         <p>Weekly Revenues</p>
         <div class="relative border-b-2 border-indigo-700 p-12 pb-0">

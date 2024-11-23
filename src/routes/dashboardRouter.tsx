@@ -53,15 +53,7 @@ export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
           </>
         );
       })
-      .get("/students", async () => {
-        const students = await prisma.user.findMany({
-          where: {
-            role: "USER",
-          },
-        });
 
-        return <Students users={students} />;
-      })
       .get("/revenues", () => <Revenues />)
       .get("/orders", () => <Orders />)
 
