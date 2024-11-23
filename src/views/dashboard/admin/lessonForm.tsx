@@ -5,22 +5,20 @@ export const LessonForm = ({ courseId }: { courseId: string }) => {
   return (
     <DashboardLayout>
       <main class="max-w-xl m-auto py-8 space-y-4">
-        <form class="space-y-5" hx-post={`/dashboard/admin/courses/${courseId}/add-lesson`} hx-target="#list" hx-swap="beforeend">
+        <form class="space-y-5" hx-post={`/dashboard/admin/lessons`} hx-target="#message">
           <section class="space-y-2">
             <h3>Add Lesson</h3>
             <p>Fill the form below to create a new lesson</p>
           </section>
           <section class="space-y-2">
+            <input name="courseId" type="hidden" value={courseId} />
             <input name="title" placeholder="Title" />
             <input name="videoUrl" placeholder="Url" />
-            <select name="status">
-              <option value="beginner">Unlock</option>
-              <option value="intermediate">Lock</option>
-            </select>
             <button>Add Lesson</button>
           </section>
+          <div id="message"></div>
         </form>
-        <section id="list" hx-get={`/dashboard/admin/courses/${courseId}/lessons`} hx-trigger="load" class="space-y-2"></section>
+        <section id="list" hx-get={`/dashboard/admin/lessons?courseId=${courseId}`} hx-trigger="load" class="space-y-2"></section>
       </main>
     </DashboardLayout>
   );

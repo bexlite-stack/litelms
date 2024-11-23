@@ -37,7 +37,6 @@ export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
         return <AdminCourses courses={courses} />;
       })
       .get("/courses/create", () => <CourseForm />)
-      .get("/courses/:courseId/add-lesson", ({ params }) => <LessonForm courseId={params.courseId} />)
       .get("/courses/:courseId/lessons", async ({ params }) => {
         const { courseId } = params;
         const lessons = await prisma.lesson.findMany({
@@ -119,7 +118,11 @@ export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
           },
         });
 
-        return <LessonCard lesson={newLesson} />;
+        return new Response(null, {
+          headers: {
+            Refresh: "true",
+          },
+        });
       })
       .patch("/lessons/:lessonId", async ({ params, body }) => {
         const { movement, order } = body as { movement: "UP" | "DOWN"; order: string };

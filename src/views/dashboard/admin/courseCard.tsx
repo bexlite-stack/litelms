@@ -16,9 +16,8 @@ export const CourseCard = ({ id, title, desc }: CourseCardProps) => {
           <p safe>{desc}</p>
         </div>
         <div class="flex gap-2">
-          <button class="text-sm btn-outline">Edit</button>
-          <a href={`/dashboard/admin/courses/${id}/add-lesson`} hx-boost="true" class="block w-full">
-            <button class="btn-outline text-sm">Add lesson</button>
+          <a href={`/dashboard/admin/courses/${id}/edit-lesson`} hx-boost="true" class="block w-full">
+            <button class="btn-outline text-sm">Edit lesson</button>
           </a>
           <button class="text-sm">Publish</button>
         </div>

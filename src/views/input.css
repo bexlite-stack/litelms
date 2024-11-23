@@ -47,7 +47,7 @@
   }
 
   .alert-error {
-    @apply bg-rose-200 text-rose-700;
+    @apply bg-rose-50 text-rose-700;
   }
 
   .menu {

@@ -6,9 +6,12 @@ import { Course } from "@prisma/client";
 export const AdminCourses = ({ courses }: { courses: Course[] }) => {
   return (
     <DashboardLayout>
-      <main class="p-6 space-y-6">
+      <main class="space-y-6">
         <section class="flex justify-between">
-          <h3>All Courses</h3>
+          <section>
+            <h3>All Courses</h3>
+            <p>Here is your all purchased courses</p>
+          </section>
           <a href="/dashboard/admin/courses/create">
             <button class="w-fit">Create Course</button>
           </a>

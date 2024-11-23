@@ -6,13 +6,15 @@ import { dashboardRouter } from "./routes/dashboardRouter";
 import { userCoursesRouter } from "./routes/user-courses";
 import { userDashboardRouter } from "./routes/user-dashboard";
 import { userOrdersRouter } from "./routes/user-orders";
+import { adminCoursesRouter } from "./routes/admin-courses";
 
 const app = new Elysia()
   .use(staticPlugin())
   .use(html())
 
   .use(authRouter)
-  .use(dashboardRouter)
+  .use(adminCoursesRouter)
+  // .use(dashboardRouter)
   .use(userCoursesRouter)
   .use(userDashboardRouter)
   .use(userOrdersRouter)
