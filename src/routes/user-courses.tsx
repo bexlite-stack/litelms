@@ -1,7 +1,9 @@
 import { Html } from "@kitajs/html";
 import Elysia from "elysia";
-import { MyCourse } from "../views/dashboard/users/myCourse";
+import { MyCourse } from "../views/dashboard/users/my-courses";
 import { prisma } from "../utils/prisma";
+import { DashboardLayout } from "../views/dashboard/dashboardLayout";
+import { SingleCourse } from "../views/dashboard/users/single-course";
 
 export const userCoursesRouter = new Elysia({ prefix: "/dashboard" })
   // My courses
@@ -44,11 +46,26 @@ export const userCoursesRouter = new Elysia({ prefix: "/dashboard" })
   .get("/my-courses/:courseId/:lessonId", async ({ params }) => {
     const { courseId } = params;
 
-    const firstLesson = await prisma.lesson.findFirst({
+    const allLessons = await prisma.lesson.findMany({
       where: {
         courseId,
       },
     });
 
-    return <div>{firstLesson?.title}</div>;
+    const currentLesson = await prisma.lesson.findFirst({
+      where: {
+        courseId,
+        id: params.lessonId,
+      },
+    });
+
+    if (!currentLesson) {
+      return new Response(null, {
+        headers: {
+          "HX-Location": `/dashboard/my-courses/${courseId}/first-lesson`,
+        },
+      });
+    }
+
+    return <SingleCourse courseId={courseId} allLessons={allLessons} currentLesson={currentLesson} />;
   });

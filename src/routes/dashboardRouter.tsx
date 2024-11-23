@@ -1,8 +1,8 @@
 import Elysia, { redirect } from "elysia";
 import { Html } from "@kitajs/html";
 import { Dashboard } from "../views/dashboard/users/dashboard";
-import { MyCourse } from "../views/dashboard/users/myCourse";
-import { OrderHistory } from "../views/dashboard/users/orderHistory";
+import { MyCourse } from "../views/dashboard/users/my-courses";
+import { OrderHistory } from "../views/dashboard/users/order-history";
 import { AdminCourses } from "../views/dashboard/admin/courses";
 import { Students } from "../views/dashboard/admin/students";
 import { Revenues } from "../views/dashboard/admin/revenues";

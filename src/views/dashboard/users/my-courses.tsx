@@ -1,6 +1,6 @@
 import { Html } from "@kitajs/html";
 import { DashboardLayout } from "../dashboardLayout";
-import { CourseCard } from "./courseCard";
+import { CourseCard } from "./course-card";
 import { Course } from "@prisma/client";
 
 interface MyCourseProps {

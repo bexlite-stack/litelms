@@ -12,7 +12,8 @@
     "@kitajs/html": "^4.2.4",
     "@prisma/client": "^5.22.0",
     "elysia": "latest",
-    "prisma": "^5.22.0"
+    "prisma": "^5.22.0",
+    "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
     "bun-types": "latest",

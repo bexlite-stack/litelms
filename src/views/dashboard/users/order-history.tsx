@@ -7,7 +7,7 @@ export const OrderHistory = () => {
       <table class="w-full text-left table-auto table-zebra">
         <thead class="border-b">
           <tr>
-            <th class="p-4">ID</th>
+            <th class="py-2">ID</th>
             <th>User</th>
             <th>Course</th>
             <th>Status</th>
@@ -17,7 +17,7 @@ export const OrderHistory = () => {
         </thead>
         <tbody>
           <tr>
-            <td class="p-4">1</td>
+            <td>1</td>
             <td>Indra Zulfi</td>
             <td class="font-bold">Python for Data Analyst</td>
             <td>Granted</td>

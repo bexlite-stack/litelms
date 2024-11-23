@@ -1,11 +1,13 @@
 import { Html } from "@kitajs/html";
 import { RootLayout } from "../rootLayout";
+import { twMerge } from "tailwind-merge";
 
 interface DashboardLayoutProps {
   children: JSX.Element | JSX.Element[];
+  className?: string;
 }
 
-export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+export const DashboardLayout = ({ children, className }: DashboardLayoutProps) => {
   return (
     <RootLayout>
       <div class="h-screen flex">
@@ -45,7 +47,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           </div>
           <button>Logout</button>
         </aside>
-        <main class="w-[calc(100vw-240px)] overflow-y-auto p-6">{children}</main>
+        <main class={twMerge("w-[calc(100vw-240px)] overflow-y-auto p-6", className)}>{children}</main>
       </div>
     </RootLayout>
   );
