@@ -11,6 +11,7 @@ export const userCoursesRouter = new Elysia({ prefix: "/dashboard" })
     const allCourses = await prisma.course.findMany();
     return <MyCourse courses={allCourses} />;
   })
+
   .get("/my-courses/:courseId/first-lesson", async ({ params, redirect }) => {
     const { courseId } = params;
 
@@ -27,8 +28,6 @@ export const userCoursesRouter = new Elysia({ prefix: "/dashboard" })
       },
     });
 
-    console.log(firstLesson);
-
     if (!firstLesson) {
       return new Response(null, {
         headers: {
@@ -43,6 +42,7 @@ export const userCoursesRouter = new Elysia({ prefix: "/dashboard" })
       },
     });
   })
+
   .get("/my-courses/:courseId/:lessonId", async ({ params }) => {
     const { courseId } = params;
 

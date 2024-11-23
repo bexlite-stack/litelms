@@ -120,8 +120,6 @@ export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
         const { movement, order } = body as { movement: "UP" | "DOWN"; order: string };
         const { lessonId } = params;
 
-        console.log({ movement, order, lessonId });
-
         // Update current lesson order
         await prisma.lesson.update({
           where: {

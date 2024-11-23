@@ -22,6 +22,7 @@ model User {
   comments Comment[]
   enrollments Enrollment[]
   orders Order[]
+  certificates Certificate[]
 }
 
 model Session {
@@ -46,6 +47,7 @@ model Course {
   lessons Lesson[]
   enrollments Enrollment[]
   orders Order[]
+  certificates Certificate[]
 }
 
 model Lesson {
@@ -80,6 +82,16 @@ model Enrollment {
   course Course @relation(fields: [courseId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Certificate {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  courseId String
+  course Course @relation(fields: [courseId], references: [id])
 }
 
 model Order {

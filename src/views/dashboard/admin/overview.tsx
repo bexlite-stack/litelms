@@ -19,9 +19,25 @@ export const Overview = () => {
 
   return (
     <DashboardLayout>
-      <main>
-        <h3>Overview</h3>
-        <p>Weekly Revenues</p>
+      <main class="space-y-6">
+        <section>
+          <h3>Overview</h3>
+          <p>Weekly Revenues</p>
+        </section>
+        <section class="grid grid-cols-3 gap-6">
+          <div class="card space-y-4">
+            <p>Total Course</p>
+            <h2>3</h2>
+          </div>
+          <div class="card space-y-4">
+            <p>Total Students</p>
+            <h2>43</h2>
+          </div>
+          <div class="card space-y-4">
+            <p>Total Revenue</p>
+            <h2>IDR 460.000</h2>
+          </div>
+        </section>
         <div class="relative border-b-2 border-indigo-700 p-12 pb-0">
           <div class="absolute inset-0 left-4 top-10 w-full -z-10 flex flex-col justify-between h-[500px]">
             {Array.from({ length: gridSteps + 1 }).map((_, index) => {
