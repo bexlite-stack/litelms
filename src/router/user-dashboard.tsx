@@ -9,10 +9,14 @@ export const userDashboardRouter = new Elysia({ prefix: "/dashboard" })
       where: {
         id: sessionId.value,
       },
+      include: {
+        user: true,
+      },
     });
 
-    return { user };
+    return { user: user?.user };
   })
+
   // Dashboard
   .get("/", async ({ user }) => {
     const allCourses = await prisma.course.findMany();
@@ -23,4 +27,60 @@ export const userDashboardRouter = new Elysia({ prefix: "/dashboard" })
     });
 
     return <Dashboard courses={allCourses} enrolledCourses={enrolledCourses} />;
+  })
+
+  .post("/courses/:courseId/buy", async ({ user, params, body, redirect }) => {
+    const { amount } = body as any;
+    const { courseId } = params;
+
+    try {
+      const newOrder = await prisma.order.create({
+        data: {
+          userId: user?.id as string,
+          courseId: courseId,
+          amount: Number(amount),
+        },
+        include: {
+          course: true,
+        },
+      });
+
+      const createPayment = await fetch("https://api.mayar.id/hl/v1/payment/create", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.MAYAR_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: user?.name,
+          email: user?.email,
+          amount: Number(amount),
+          mobile: "00000000000000",
+          description: newOrder.course.title,
+          redirectUrl: "https://devscale.id",
+        }),
+      });
+
+      const { data } = await createPayment.json();
+
+      console.log(data);
+
+      await prisma.order.update({
+        where: {
+          id: newOrder.id,
+        },
+        data: {
+          mayarTransactionId: data.transaction_id,
+        },
+      });
+
+      return new Response(null, {
+        status: 302,
+        headers: {
+          "HX-Redirect": data.link,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   });

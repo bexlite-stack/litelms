@@ -103,6 +103,7 @@ model Order {
   course Course @relation(fields: [courseId], references: [id])
   status String @default("PENDING")
   amount Float
+  mayarTransactionId String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

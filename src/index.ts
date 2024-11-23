@@ -16,15 +16,23 @@ const app = new Elysia()
   // auth
   .use(authRouter)
 
-  // dashboard
-  .use(adminCoursesRouter)
-  .use(adminOverviewRouter)
-  .use(adminStudentRouter)
+  .guard((app) =>
+    app
+      .onBeforeHandle(({ cookie: { sessionId }, redirect }) => {
+        if (!sessionId.value) {
+          return redirect("/login");
+        }
+      })
+      // dashboard
+      .use(adminCoursesRouter)
+      .use(adminOverviewRouter)
+      .use(adminStudentRouter)
 
-  // user dashboard
-  .use(userDashboardRouter)
-  .use(userCoursesRouter)
-  .use(userOrdersRouter)
+      // user dashboard
+      .use(userDashboardRouter)
+      .use(userCoursesRouter)
+      .use(userOrdersRouter)
+  )
 
   // port
   .listen(3000);

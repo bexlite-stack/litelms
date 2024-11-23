@@ -9,6 +9,11 @@ interface DashboardProps {
 }
 
 export const Dashboard = ({ courses, enrolledCourses }: DashboardProps) => {
+  const priceFormatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
+
   return (
     <DashboardLayout>
       <main class="space-y-4">
@@ -26,7 +31,10 @@ export const Dashboard = ({ courses, enrolledCourses }: DashboardProps) => {
                     <button class="text-sm">Continue Learning</button>
                   </form>
                 ) : (
-                  <button class="text-sm btn-outline">Buy</button>
+                  <form hx-post={`/dashboard/courses/${course.id}/buy`} class="block">
+                    <input name="amount" hidden value={String(course.price)} />
+                    <button class="text-sm btn-outline">Buy for IDR {priceFormatter.format(course.price)}</button>
+                  </form>
                 )}
               </CourseCard>
             );
