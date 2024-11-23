@@ -13,7 +13,7 @@ export const AdminCourses = ({ courses }: { courses: Course[] }) => {
             <button class="w-fit">Create Course</button>
           </a>
         </section>
-        <section class="grid grid-cols-4 gap-6">
+        <section class="grid grid-cols-3 gap-6">
           {courses.map((course) => (
             <CourseCard id={course.id} title={course.title} desc={course.description} />
           ))}

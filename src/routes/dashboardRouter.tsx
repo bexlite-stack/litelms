@@ -26,8 +26,6 @@ interface CourseBody {
 }
 
 export const dashboardRouter = new Elysia({ prefix: "/dashboard" })
-  .get("/", () => <Dashboard />)
-  .get("/my-courses", () => <MyCourse />)
   .get("/orders", () => <OrderHistory />)
   .group("/admin", (app) =>
     app

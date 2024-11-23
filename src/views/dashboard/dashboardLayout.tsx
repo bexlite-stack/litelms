@@ -25,7 +25,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               </a>
             </section>
             <section>
-              <h4 class="ml-3">Admin</h4>{" "}
+              <h4 class="ml-3">Admin</h4>
               <a href="/dashboard/admin/overview" hx-boost="true" class="menu">
                 Overview
               </a>
@@ -45,7 +45,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           </div>
           <button>Logout</button>
         </aside>
-        <main class="w-[calc(100vw-240px)] overflow-y-auto">{children}</main>
+        <main class="w-[calc(100vw-240px)] overflow-y-auto p-6">{children}</main>
       </div>
     </RootLayout>
   );

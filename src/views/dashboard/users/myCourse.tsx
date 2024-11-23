@@ -1,14 +1,26 @@
 import { Html } from "@kitajs/html";
 import { DashboardLayout } from "../dashboardLayout";
 import { CourseCard } from "./courseCard";
+import { Course } from "@prisma/client";
 
-export const MyCourse = () => {
+interface MyCourseProps {
+  courses: Course[];
+}
+
+export const MyCourse = ({ courses }: MyCourseProps) => {
   return (
     <DashboardLayout>
-      <section class="grid grid-cols-4 gap-6 p-6">
-        <CourseCard title="Python for Data Analyst" desc="Beginner course for someone who just start to learn data analytics" />
-        <CourseCard title="Javascript for Beginners" desc="Javascript is the most powerful web based programming language" />
-      </section>
+      <main class="space-y-4">
+        <section>
+          <h3>All my courses</h3>
+          <p>Here is your all purchased courses</p>
+        </section>
+        <section class="grid grid-cols-3 gap-6">
+          {courses.map((course) => {
+            return <CourseCard href={`/dashboard/my-courses/${course.id}/first-lesson`} title={course.title} desc={course.description} />;
+          })}
+        </section>
+      </main>
     </DashboardLayout>
   );
 };

@@ -20,6 +20,8 @@ export const Overview = () => {
   return (
     <DashboardLayout>
       <main class="p-12">
+        <h3>Overview</h3>
+        <p>Weekly Revenues</p>
         <div class="relative border-b-2 border-indigo-700 p-12 pb-0">
           <div class="absolute inset-0 left-4 top-10 w-full -z-10 flex flex-col justify-between h-[500px]">
             {Array.from({ length: gridSteps + 1 }).map((_, index) => {
@@ -54,6 +56,30 @@ export const Overview = () => {
             })}
           </div>
         </div>
+        <table class="w-full text-left table-auto table-zebra">
+          <thead class="border-b">
+            <tr>
+              <th class="p-4">ID</th>
+              <th>User</th>
+              <th>Course</th>
+              <th>Status</th>
+              <th>Amount</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="p-4">1</td>
+              <td>Indra Zulfi</td>
+              <td>Python for Data Analyst</td>
+              <td>Granted</td>
+              <td>IDR 150.000</td>
+              <td class="flex gap-2 py-4">
+                <button class="w-fit text-sm">View</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </main>
     </DashboardLayout>
   );

@@ -4,7 +4,7 @@ import { DashboardLayout } from "../dashboardLayout";
 export const Dashboard = () => {
   return (
     <DashboardLayout>
-      <section class="grid grid-cols-3 gap-6 p-6">
+      <section class="grid grid-cols-3 gap-6">
         <div class="card space-y-4">
           <p>Total Course</p>
           <h2>3</h2>

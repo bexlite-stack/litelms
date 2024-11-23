@@ -51,10 +51,10 @@
   }
 
   .menu {
-    @apply transition duration-200 block text-slate-700 hover:bg-indigo-600 hover:text-white font-medium px-3 py-1.5 rounded-md;
+    @apply flex gap-2 items-center transition duration-200 w-full text-slate-700 hover:bg-indigo-600 hover:text-white font-medium px-3 py-1.5 rounded-md;
   }
 
   .card {
-    @apply block p-6 bg-white shadow-sm border rounded-md;
+    @apply overflow-hidden block p-6 bg-white shadow-sm border rounded-md;
   }
 }
