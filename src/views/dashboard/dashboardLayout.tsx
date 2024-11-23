@@ -37,12 +37,6 @@ export const DashboardLayout = ({ children, className }: DashboardLayoutProps) =
               <a href="/dashboard/admin/students" hx-boost="true" class="menu">
                 Students
               </a>
-              <a href="/dashboard/admin/revenues" hx-boost="true" class="menu">
-                Revenues
-              </a>
-              <a href="/dashboard/admin/orders" hx-boost="true" class="menu">
-                Orders
-              </a>
             </section>
           </div>
           <button>Logout</button>
