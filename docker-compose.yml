@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8805:8805"
+    env_file:
+      - .env
+    volumes:
+      - public_data:/app/public
+      - prisma:/app/prisma
+
+volumes:
+  public_data:
+    name: public_data
+  prisma:
+    name: prisma
+ 
+ 
+    Enter fullscreen mode
