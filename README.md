@@ -13,5 +13,5 @@ This is a simple LMS (Learning Management System) built with Bexlite. It is a si
 
 ### Preview
 
-![Litelms](/public/github/a.png)
-![Litelms](/public/github/b.png)
+![Litelms](/public/github/1.png)
+![Litelms](/public/github/2.png)
