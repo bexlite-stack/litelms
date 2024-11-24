@@ -65,7 +65,7 @@ export const adminCoursesRouter = new Elysia({ prefix: "/dashboard/admin" })
         },
       });
 
-      await Bun.write(`public/courses/${newCourse.id}/${image.name}`, image);
+      await Bun.write(`public/courses/${newCourse.id}/image.png`, image);
 
       return new Response(null, {
         headers: {

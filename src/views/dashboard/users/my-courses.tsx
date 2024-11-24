@@ -23,7 +23,7 @@ export const MyCourse = ({ courses, certificates }: MyCourseProps) => {
             const certificateId = certificates.find((i) => i.courseId === course.id)?.id;
 
             return (
-              <CourseCard title={course.title} desc={course.description}>
+              <CourseCard id={course.id} title={course.title} desc={course.description}>
                 <div class="flex gap-2">
                   <a href={`/dashboard/my-courses/${course.id}/first-lesson`} hx-boost="true" class="block w-full">
                     <button class="text-sm">Continue</button>

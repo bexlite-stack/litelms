@@ -1,19 +1,20 @@
 import { Html } from "@kitajs/html";
 import { DashboardLayout } from "../dashboardLayout";
+import { currencyFormat } from "../../../libs/currency-format";
 
-export const Overview = () => {
-  const data = [
-    { date: "Fr, Nov 15", value: 15 },
-    { date: "Sa, Nov 16", value: 4 },
-    { date: "Su, Nov 17", value: 2 },
-    { date: "Mo, Nov 18", value: 1 },
-    { date: "Tu, Nov 19", value: 4 },
-    { date: "Wed, Nov 28", value: 7 },
-    { date: "Fri, Nov 28", value: 2 },
-  ];
+interface OverviewProps {
+  courseCount: number;
+  studentCount: number;
+  totalRevenue: number;
+  revenueData: {
+    date: string;
+    value: number;
+  }[];
+}
 
+export const Overview = ({ courseCount, studentCount, totalRevenue, revenueData }: OverviewProps) => {
   const maxGridHeight = 500;
-  const maxValue = Math.max(...data.map((d) => d.value));
+  const maxValue = Math.max(...revenueData.map((d) => d.value));
   const gridSteps = 5;
   const stepValue = maxValue / gridSteps;
 
@@ -27,15 +28,15 @@ export const Overview = () => {
         <section class="grid grid-cols-3 gap-6">
           <div class="card space-y-4">
             <p>Total Course</p>
-            <h2>3</h2>
+            <h2>{courseCount}</h2>
           </div>
           <div class="card space-y-4">
             <p>Total Students</p>
-            <h2>43</h2>
+            <h2>{studentCount}</h2>
           </div>
           <div class="card space-y-4">
             <p>Total Revenue</p>
-            <h2>IDR 460.000</h2>
+            <h2>{currencyFormat.format(totalRevenue)}</h2>
           </div>
         </section>
         <div class="relative border-b-2 border-indigo-700 p-12 pb-0">
@@ -52,7 +53,7 @@ export const Overview = () => {
           </div>
 
           <div class="flex justify-around gap-4 items-end h-[500px]">
-            {data.map(({ value, date }, index) => {
+            {revenueData.map(({ value, date }, index) => {
               const barHeight = (value / maxValue) * maxGridHeight;
               return (
                 <div class="relative group w-full">
@@ -65,37 +66,13 @@ export const Overview = () => {
                     safe
                     class="duration-700 absolute w-[120px] text-center bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block p-2 bg-indigo-700 text-white text-sm rounded shadow-lg"
                   >
-                    {`${date}: ${value}`}
+                    {`${date}: ${currencyFormat.format(value)}`}
                   </div>
                 </div>
               );
             })}
           </div>
         </div>
-        <table class="w-full text-left table-auto table-zebra">
-          <thead class="border-b">
-            <tr>
-              <th class="p-4">ID</th>
-              <th>User</th>
-              <th>Course</th>
-              <th>Status</th>
-              <th>Amount</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="p-4">1</td>
-              <td>Indra Zulfi</td>
-              <td>Python for Data Analyst</td>
-              <td>Granted</td>
-              <td>IDR 150.000</td>
-              <td class="flex gap-2 py-4">
-                <button class="w-fit text-sm">View</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </main>
     </DashboardLayout>
   );

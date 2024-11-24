@@ -2,6 +2,7 @@ import { Html } from "@kitajs/html";
 import { DashboardLayout } from "../dashboardLayout";
 import { Course, Enrollment } from "@prisma/client";
 import { CourseCard } from "./course-card";
+import { currencyFormat } from "../../../libs/currency-format";
 
 interface DashboardProps {
   courses: Course[];
@@ -9,11 +10,6 @@ interface DashboardProps {
 }
 
 export const Dashboard = ({ courses, enrolledCourses }: DashboardProps) => {
-  const priceFormatter = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  });
-
   return (
     <DashboardLayout>
       <main class="space-y-4">
@@ -25,7 +21,7 @@ export const Dashboard = ({ courses, enrolledCourses }: DashboardProps) => {
           {courses.map((course) => {
             const hasEnrolled = enrolledCourses.some((enrollment) => enrollment.courseId === course.id);
             return (
-              <CourseCard href={`/dashboard/my-courses/${course.id}/first-lesson`} title={course.title} desc={course.description}>
+              <CourseCard id={course.id} title={course.title} desc={course.description}>
                 {hasEnrolled ? (
                   <form hx-get={`/dashboard/my-courses/${course.id}/first-lesson`} class="block">
                     <button class="text-sm">Continue Learning</button>
@@ -33,7 +29,7 @@ export const Dashboard = ({ courses, enrolledCourses }: DashboardProps) => {
                 ) : (
                   <form hx-post={`/dashboard/courses/${course.id}/buy`} class="block">
                     <input name="amount" hidden value={String(course.price)} />
-                    <button class="text-sm btn-outline">Buy for IDR {priceFormatter.format(course.price)}</button>
+                    <button class="text-sm btn-outline">Buy for IDR {currencyFormat.format(course.price)}</button>
                   </form>
                 )}
               </CourseCard>
