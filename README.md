@@ -1,15 +1,17 @@
-# Elysia with Bun runtime
+# Litelms - A simple LMS with Bexlite
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
-```
+This is a simple LMS (Learning Management System) built with Bexlite. It is a simple project that demonstrates how to build a simple LMS with Bexlite.
 
-## Development
-To start the development server run:
-```bash
-bun run dev
-```
+### Tech Stack
 
-Open http://localhost:3000/ with your browser to see the result.
+- Bunjs
+- Elysiajs
+- HTMX
+- Alpinejs
+- Prisma + Sqlite
+- Tailwindcss
+
+### Preview
+
+![Litelms](/public/github/a.png)
+![Litelms](/public/github/b.png)
