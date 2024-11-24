@@ -5,12 +5,15 @@ interface CourseCardProps {
   title: string;
   desc: string;
   published: boolean;
+  image: string;
 }
 
-export const CourseCard = ({ id, title, desc, published }: CourseCardProps) => {
+export const CourseCard = ({ id, title, desc, published, image }: CourseCardProps) => {
   return (
     <div class="card p-0">
-      <div class="bg-slate-100 h-64 rounded-t-lg" />
+      <div class="bg-slate-100 h-64 rounded-t-lg">
+        <img src={`/public/courses/${id}/${image}`} />
+      </div>
       <div class="p-6 space-y-6">
         <div class="space-y-2">
           <h3 safe>{title}</h3>

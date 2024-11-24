@@ -25,7 +25,18 @@ export const SingleCourse = ({ allLessons, courseId, currentLesson }: SingleCour
             );
           })}
         </aside>
-        <div class="w-[calc(100%-240px)] p-4">{currentLesson.videoUrl}</div>
+        <div class="w-[calc(100%-240px)] p-4">
+          <iframe
+            width="100%"
+            height="720px"
+            src={`https://www.youtube.com/embed/${currentLesson.videoUrl}`}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            class="rounded-xl overflow-hidden"
+            allowfullscreen
+          ></iframe>
+        </div>
       </main>
     </DashboardLayout>
   );
