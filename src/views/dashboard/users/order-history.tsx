@@ -1,7 +1,12 @@
 import { Html } from "@kitajs/html";
 import { DashboardLayout } from "../dashboardLayout";
+import { Order } from "@prisma/client";
 
-export const OrderHistory = () => {
+interface OrderHistoryProps {
+  orders: any[];
+}
+
+export const OrderHistory = ({ orders }: OrderHistoryProps) => {
   return (
     <DashboardLayout>
       <table class="w-full text-left table-auto table-zebra">
@@ -16,16 +21,22 @@ export const OrderHistory = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Indra Zulfi</td>
-            <td class="font-bold">Python for Data Analyst</td>
-            <td>Granted</td>
-            <td>IDR 150.000</td>
-            <td class="flex gap-2 py-4">
-              <button class="w-fit text-sm">View Receipt</button>
-            </td>
-          </tr>
+          {orders.map((order) => {
+            return (
+              <tr>
+                <td>{order.id}</td>
+                <td>{order.user.name}</td>
+                <td class="font-bold">{order.course.title}</td>
+                <td>
+                  <div class="bg-emerald-100 text-emerald-600 border border-emerald-500 font-bold text-sm w-fit px-2 py-1 rounded-lg ">{order.status}</div>
+                </td>
+                <td>{order.amount}</td>
+                <td class="flex gap-2 py-4">
+                  <button class="w-fit text-sm">View Receipt</button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </DashboardLayout>

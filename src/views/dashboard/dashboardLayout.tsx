@@ -36,10 +36,13 @@ export const DashboardLayout = ({ children, className }: DashboardLayoutProps) =
               </a>
               <a href="/dashboard/admin/students" hx-boost="true" class="menu">
                 Students
+              </a>{" "}
+              <a href="/dashboard/admin/certificates" hx-boost="true" class="menu">
+                Certificates
               </a>
             </section>
           </div>
-          <button>Logout</button>
+          <button class="btn-outline text-sm">Logout</button>
         </aside>
         <main class={twMerge("w-[calc(100vw-240px)] overflow-y-auto p-6", className)}>{children}</main>
       </div>

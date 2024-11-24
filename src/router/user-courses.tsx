@@ -2,21 +2,41 @@ import { Html } from "@kitajs/html";
 import Elysia from "elysia";
 import { MyCourse } from "../views/dashboard/users/my-courses";
 import { prisma } from "../utils/prisma";
-import { DashboardLayout } from "../views/dashboard/dashboardLayout";
 import { SingleCourse } from "../views/dashboard/users/single-course";
 
 export const userCoursesRouter = new Elysia({ prefix: "/dashboard" })
+  .derive(async ({ cookie: { sessionId } }) => {
+    const user = await prisma.session.findUnique({
+      where: {
+        id: sessionId.value,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    return { user: user?.user };
+  })
+
   // My courses
-  .get("/my-courses", async () => {
+  .get("/my-courses", async ({ user }) => {
     const userCourses = await prisma.enrollment.findMany({
+      where: {
+        userId: user?.id as string,
+      },
       include: {
         course: true,
       },
     });
 
     const courses = userCourses.map((enrollment) => enrollment.course);
+    const certificates = await prisma.certificate.findMany({
+      where: {
+        userId: user?.id,
+      },
+    });
 
-    return <MyCourse courses={courses} />;
+    return <MyCourse courses={courses} certificates={certificates} />;
   })
 
   .get("/my-courses/:courseId/first-lesson", async ({ params, redirect }) => {

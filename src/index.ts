@@ -9,6 +9,7 @@ import { adminCoursesRouter } from "./router/admin-courses";
 import { adminOverviewRouter } from "./router/admin-overview";
 import { adminStudentRouter } from "./router/admin-students";
 import { prisma } from "./utils/prisma";
+import { adminCertificatesRouter } from "./router/admin-certificates";
 
 const app = new Elysia()
   .use(staticPlugin())
@@ -55,6 +56,7 @@ const app = new Elysia()
       .use(adminCoursesRouter)
       .use(adminOverviewRouter)
       .use(adminStudentRouter)
+      .use(adminCertificatesRouter)
 
       // user dashboard
       .use(userDashboardRouter)

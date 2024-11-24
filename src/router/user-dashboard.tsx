@@ -33,8 +33,6 @@ export const userDashboardRouter = new Elysia({ prefix: "/dashboard" })
     const { amount } = body as any;
     const { courseId } = params;
 
-    console.log({ user, body, courseId });
-
     try {
       const newOrder = await prisma.order.create({
         data: {

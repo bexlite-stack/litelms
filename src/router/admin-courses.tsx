@@ -32,7 +32,6 @@ export const adminCoursesRouter = new Elysia({ prefix: "/dashboard/admin" })
 
   .post("/courses/:courseId/request-certificate", async ({ user, params }) => {
     const { courseId } = params;
-    console.log(courseId, user);
 
     await prisma.certificate.create({
       data: {
