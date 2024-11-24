@@ -20,6 +20,7 @@ export const MyCourse = ({ courses, certificates }: MyCourseProps) => {
           {courses.map((course) => {
             const certificateRequested = certificates.find((i) => i.courseId === course.id && i.status === "REQUESTED");
             const certificateApproved = certificates.find((i) => i.status === "APPROVED");
+            const certificateId = certificates.find((i) => i.courseId === course.id)?.id;
 
             return (
               <CourseCard title={course.title} desc={course.description}>
@@ -27,7 +28,11 @@ export const MyCourse = ({ courses, certificates }: MyCourseProps) => {
                   <a href={`/dashboard/my-courses/${course.id}/first-lesson`} hx-boost="true" class="block w-full">
                     <button class="text-sm">Continue</button>
                   </a>
-                  {certificateApproved && <button class="text-sm btn-outline">Download Certificate</button>}
+                  {certificateApproved && (
+                    <button hx-get={`/dashboard/admin/certificates/${certificateId}`} class="text-sm btn-outline">
+                      Download Certificate
+                    </button>
+                  )}
                   {certificateRequested && (
                     <button class="text-sm btn-outline bg-yellow-100 border-yellow-600 text-yellow-700 cursor-text">Certificate Requested</button>
                   )}
