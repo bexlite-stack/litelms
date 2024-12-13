@@ -127,5 +127,9 @@ export const adminCertificatesRouter = new Elysia({
     const pdfBytes = await pdfDoc.save();
     Bun.write(`public/certificates/${certificateId}.pdf`, pdfBytes);
 
-    return redirect(`/public/certificates/${certificateId}.pdf`);
+    return new Response(null, {
+      headers: {
+        "HX-Redirect": `/public/certificates/${certificateId}.pdf`,
+      },
+    });
   });
