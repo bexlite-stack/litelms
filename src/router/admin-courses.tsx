@@ -8,154 +8,156 @@ import { CourseForm } from "../views/dashboard/admin/courseForm";
 
 export const adminCoursesRouter = new Elysia({ prefix: "/dashboard/admin" })
 
-  .derive(async ({ cookie: { sessionId } }) => {
-    const user = await prisma.session.findUnique({
-      where: {
-        id: sessionId.value,
-      },
-      include: {
-        user: true,
-      },
-    });
+	.derive(async ({ cookie: { sessionId } }) => {
+		const user = await prisma.session.findUnique({
+			where: {
+				id: sessionId.value,
+			},
+			include: {
+				user: true,
+			},
+		});
 
-    return { user: user?.user };
-  })
+		return { user: user?.user };
+	})
 
-  .get("/courses", async () => {
-    const allCourses = await prisma.course.findMany();
-    return <AdminCourses courses={allCourses} />;
-  })
+	.get("/courses", async () => {
+		const allCourses = await prisma.course.findMany();
+		return <AdminCourses courses={allCourses} />;
+	})
 
-  .get("/courses/create", () => <CourseForm />)
+	.get("/courses/create", () => <CourseForm />)
 
-  .get("/courses/:courseId/edit-lesson", ({ params }) => <LessonForm courseId={params.courseId} />)
+	.get("/courses/:courseId/edit-lesson", ({ params }) => (
+		<LessonForm courseId={params.courseId} />
+	))
 
-  .post("/courses/:courseId/request-certificate", async ({ user, params }) => {
-    const { courseId } = params;
+	.post("/courses/:courseId/request-certificate", async ({ user, params }) => {
+		const { courseId } = params;
 
-    await prisma.certificate.create({
-      data: {
-        userId: user?.id as string,
-        courseId,
-      },
-    });
+		await prisma.certificate.create({
+			data: {
+				userId: user?.id as string,
+				courseId,
+			},
+		});
 
-    return new Response(null, {
-      headers: {
-        "HX-Refresh": "true",
-      },
-    });
-  })
+		return new Response(null, {
+			headers: {
+				"HX-Refresh": "true",
+			},
+		});
+	})
 
-  .post("/courses", async ({ body }) => {
-    const { image, title, description, price, level } = body as any;
+	.post("/courses", async ({ body }) => {
+		const { image, title, description, price, level } = body as any;
 
-    if (!image || !title || !description || !price || !level) {
-      return <div>Please fill all fields</div>;
-    }
+		if (!image || !title || !description || !price || !level) {
+			return <div>Please fill all fields</div>;
+		}
 
-    try {
-      const newCourse = await prisma.course.create({
-        data: {
-          image: image.name,
-          title,
-          description,
-          price: Number(price),
-          level,
-        },
-      });
+		try {
+			const newCourse = await prisma.course.create({
+				data: {
+					image: image.name,
+					title,
+					description,
+					price: Number(price),
+					level,
+				},
+			});
 
-      await Bun.write(`public/courses/${newCourse.id}/image.png`, image);
+			await Bun.write(`public/courses/${newCourse.id}/image.png`, image);
 
-      return new Response(null, {
-        headers: {
-          "HX-Location": `/dashboard/admin/courses/${newCourse.id}/edit-lesson`,
-        },
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  })
+			return new Response(null, {
+				headers: {
+					"HX-Location": `/dashboard/admin/courses/${newCourse.id}/edit-lesson`,
+				},
+			});
+		} catch (error) {
+			console.error(error);
+		}
+	})
 
-  .patch("/courses/:courseId", async ({ params, body }) => {
-    const { courseId } = params;
-    const { published } = body as { published: string };
+	.patch("/courses/:courseId", async ({ params, body }) => {
+		const { courseId } = params;
+		const { published } = body as { published: string };
 
-    await prisma.course.update({
-      where: {
-        id: courseId,
-      },
-      data: {
-        published: published === "true" ? true : false,
-      },
-    });
+		await prisma.course.update({
+			where: {
+				id: courseId,
+			},
+			data: {
+				published: published === "true" ? true : false,
+			},
+		});
 
-    return new Response(null, {
-      headers: {
-        "HX-Refresh": "true",
-      },
-    });
-  })
+		return new Response(null, {
+			headers: {
+				"HX-Refresh": "true",
+			},
+		});
+	})
 
-  .get("/lessons", async ({ query }) => {
-    const { courseId } = query;
+	.get("/lessons", async ({ query }) => {
+		const { courseId } = query;
 
-    if (!courseId) {
-      return null;
-    }
+		if (!courseId) {
+			return null;
+		}
 
-    const lessons = await prisma.lesson.findMany({
-      where: {
-        courseId,
-      },
-    });
+		const lessons = await prisma.lesson.findMany({
+			where: {
+				courseId,
+			},
+		});
 
-    return (
-      <>
-        {lessons.map((lesson) => (
-          <LessonCard lesson={lesson} />
-        ))}
-      </>
-    );
-  })
+		return (
+			<>
+				{lessons.map((lesson) => (
+					<LessonCard lesson={lesson} />
+				))}
+			</>
+		);
+	})
 
-  .post("/lessons", async ({ body }) => {
-    const { courseId, title, videoUrl } = body as any;
+	.post("/lessons", async ({ body }) => {
+		const { courseId, title, videoUrl } = body as any;
 
-    if (!courseId || !title || !videoUrl) {
-      return <div class="alert alert-error">All Field required</div>;
-    }
+		if (!courseId || !title || !videoUrl) {
+			return <div class="alert alert-error">All Field required</div>;
+		}
 
-    const totalLessons = await prisma.lesson.count({
-      where: {
-        courseId,
-      },
-    });
+		const totalLessons = await prisma.lesson.count({
+			where: {
+				courseId,
+			},
+		});
 
-    await prisma.lesson.create({
-      data: {
-        courseId,
-        title,
-        videoUrl,
-        order: totalLessons + 1,
-      },
-    });
+		await prisma.lesson.create({
+			data: {
+				courseId,
+				title,
+				videoUrl,
+				order: totalLessons + 1,
+			},
+		});
 
-    return new Response(null, {
-      headers: {
-        "HX-Refresh": "true",
-      },
-    });
-  })
+		return new Response(null, {
+			headers: {
+				"HX-Refresh": "true",
+			},
+		});
+	})
 
-  .delete("/lessons/:lessonId", async ({ params }) => {
-    const { lessonId } = params;
+	.delete("/lessons/:lessonId", async ({ params }) => {
+		const { lessonId } = params;
 
-    await prisma.lesson.delete({
-      where: {
-        id: lessonId,
-      },
-    });
+		await prisma.lesson.delete({
+			where: {
+				id: lessonId,
+			},
+		});
 
-    return null;
-  });
+		return null;
+	});

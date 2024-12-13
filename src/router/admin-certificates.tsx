@@ -7,7 +7,9 @@ import fontkit from "@pdf-lib/fontkit";
 import path from "node:path";
 import fs from "node:fs/promises";
 
-export const adminCertificatesRouter = new Elysia({ prefix: "/dashboard/admin" })
+export const adminCertificatesRouter = new Elysia({
+  prefix: "/dashboard/admin",
+})
   .get("/certificates", async () => {
     const allCertificates = await prisma.certificate.findMany({
       where: {
@@ -46,7 +48,7 @@ export const adminCertificatesRouter = new Elysia({ prefix: "/dashboard/admin" }
   })
 
   .patch("/certificates", async ({ body }) => {
-    const { certificateId } = body as any;
+    const { certificateId } = body as { certificateId: string };
 
     await prisma.certificate.update({
       where: {

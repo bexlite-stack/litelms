@@ -4,7 +4,8 @@
   "scripts": {
     "tw:run": "bunx tailwindcss -i ./src/views/input.css -o ./public/globals.css --watch",
     "dev": "bun run --watch src/index.ts",
-    "start": "concurrently \"bun dev\" \"bun tw:run\""
+    "start": "concurrently \"bun dev\" \"bun tw:run\"",
+    "lint": "bunx biome lint src/"
   },
   "dependencies": {
     "@elysiajs/html": "^1.1.1",
@@ -18,6 +19,7 @@
     "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "bun-types": "latest",
     "concurrently": "^9.1.0",
     "tailwindcss": "^3.4.15"

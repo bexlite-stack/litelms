@@ -12,59 +12,61 @@ import { prisma } from "./utils/prisma";
 import { adminCertificatesRouter } from "./router/admin-certificates";
 
 const app = new Elysia()
-  .use(staticPlugin())
-  .use(html())
+	.use(staticPlugin())
+	.use(html())
 
-  // auth
-  .use(authRouter)
+	// auth
+	.use(authRouter)
 
-  .post("/webhook", async ({ body }) => {
-    const { event, data } = body as any;
+	.post("/webhook", async ({ body }) => {
+		const { event, data } = body as any;
 
-    if (event === "payment.received") {
-      const updatedOrder = await prisma.order.update({
-        where: {
-          mayarTransactionId: data.productId,
-        },
-        data: {
-          status: "PAID",
-        },
-        include: {
-          course: true,
-        },
-      });
+		if (event === "payment.received") {
+			const updatedOrder = await prisma.order.update({
+				where: {
+					mayarTransactionId: data.productId,
+				},
+				data: {
+					status: "PAID",
+				},
+				include: {
+					course: true,
+				},
+			});
 
-      await prisma.enrollment.create({
-        data: {
-          userId: updatedOrder.userId,
-          courseId: updatedOrder.course.id,
-        },
-      });
-    }
+			await prisma.enrollment.create({
+				data: {
+					userId: updatedOrder.userId,
+					courseId: updatedOrder.course.id,
+				},
+			});
+		}
 
-    return "Success!!!";
-  })
+		return "Success!!!";
+	})
 
-  .guard((app) =>
-    app
-      .onBeforeHandle(({ cookie: { sessionId }, redirect }) => {
-        if (!sessionId.value) {
-          return redirect("/login");
-        }
-      })
-      // dashboard
-      .use(adminCoursesRouter)
-      .use(adminOverviewRouter)
-      .use(adminStudentRouter)
-      .use(adminCertificatesRouter)
+	.guard((app) =>
+		app
+			.onBeforeHandle(({ cookie: { sessionId }, redirect }) => {
+				if (!sessionId.value) {
+					return redirect("/login");
+				}
+			})
+			// dashboard
+			.use(adminCoursesRouter)
+			.use(adminOverviewRouter)
+			.use(adminStudentRouter)
+			.use(adminCertificatesRouter)
 
-      // user dashboard
-      .use(userDashboardRouter)
-      .use(userCoursesRouter)
-      .use(userOrdersRouter)
-  )
+			// user dashboard
+			.use(userDashboardRouter)
+			.use(userCoursesRouter)
+			.use(userOrdersRouter),
+	)
 
-  // port
-  .listen(8805);
+	// port
+	.listen(8805);
 
-console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);
+console.log(
+	`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
+);
