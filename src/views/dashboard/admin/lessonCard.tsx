@@ -1,5 +1,5 @@
 import { Html } from "@kitajs/html";
-import { Lesson } from "@prisma/client";
+import type { Lesson } from "@prisma/client";
 
 export const LessonCard = ({ lesson }: { lesson: Lesson }) => {
 	return (

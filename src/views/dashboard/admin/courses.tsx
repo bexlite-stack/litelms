@@ -1,7 +1,7 @@
 import { Html } from "@kitajs/html";
 import { DashboardLayout } from "../dashboardLayout";
 import { CourseCard } from "./courseCard";
-import { Course } from "@prisma/client";
+import type { Course } from "@prisma/client";
 
 export const AdminCourses = ({ courses }: { courses: Course[] }) => {
 	return (

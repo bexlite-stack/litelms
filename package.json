@@ -5,7 +5,8 @@
     "tw:run": "bunx tailwindcss -i ./src/views/input.css -o ./public/globals.css --watch",
     "dev": "bun run --watch src/index.ts",
     "start": "concurrently \"bun dev\" \"bun tw:run\"",
-    "lint": "bunx biome lint src/"
+    "lint": "bunx biome lint src/",
+    "prepare": "husky"
   },
   "dependencies": {
     "@elysiajs/html": "^1.1.1",
