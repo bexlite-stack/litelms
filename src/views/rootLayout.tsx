@@ -15,6 +15,7 @@ export const RootLayout = ({ children }: RootLayoutProps) => {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet" />
+        <title>litelms - bexlite stack</title>
       </head>
       <body>
         {children}

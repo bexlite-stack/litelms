@@ -11,7 +11,7 @@ export const CourseForm = () => {
             <p>Fill the form below to create a new course</p>
           </section>
           <section class="space-y-2">
-            <input name="image" type="file" class="file-input file-input-bordered" />
+            <input name="image" type="file" accept=".png" class="file-input file-input-bordered" />
             <input name="title" placeholder="Title" />
             <textarea name="description" placeholder="Description" rows="6" />
             <input name="price" placeholder="Price" type="number" />

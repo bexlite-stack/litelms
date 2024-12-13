@@ -19,7 +19,11 @@ export const userDashboardRouter = new Elysia({ prefix: "/dashboard" })
 
   // Dashboard
   .get("/", async ({ user }) => {
-    const allCourses = await prisma.course.findMany();
+    const allCourses = await prisma.course.findMany({
+      where: {
+        published: true,
+      },
+    });
     const enrolledCourses = await prisma.enrollment.findMany({
       where: {
         userId: user?.id,
